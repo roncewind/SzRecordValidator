@@ -1,4 +1,4 @@
-package szRecordValidator
+package sz-record-validator
 
 import (
 	"encoding/json"
