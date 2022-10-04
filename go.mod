@@ -1,3 +1,3 @@
-module github.com/roncewind/sz-record-validator
+module github.com/roncewind/szrecord
 
 go 1.19

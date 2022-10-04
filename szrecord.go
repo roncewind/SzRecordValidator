@@ -1,4 +1,4 @@
-package main
+package szrecord
 
 import (
 	"encoding/json"

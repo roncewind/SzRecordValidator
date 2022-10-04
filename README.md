@@ -1,1 +1,1 @@
-# sz-record-validator
+# szrecord
