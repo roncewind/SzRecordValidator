@@ -1,14 +1,8 @@
 package szRecordValidator
 
-
 import (
 	"encoding/json"
 	"errors"
-	// "fmt"
-	// "net"
-	// "net/http"
-	// "net/url"
-	// "os"
 )
 
 // ----------------------------------------------------------------------------
