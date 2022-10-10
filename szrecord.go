@@ -8,7 +8,19 @@ import (
 // ----------------------------------------------------------------------------
 type Record struct {
 	DataSource string `json:"DATA_SOURCE"`
-	RecordId string `json:"RECORD_ID"`
+	Id string `json:"RECORD_ID"`
+	Json string
+}
+
+// ----------------------------------------------------------------------------
+func NewRecord(line string) (*Record, error) {
+	var record Record
+	err := json.Unmarshal([]byte(line), &record)
+	if err == nil {
+		return &record, nil
+	}
+	//TODO:  should we return err ???
+	return &record, errors.New("JSON-line not well formed.")
 }
 
 // ----------------------------------------------------------------------------
@@ -18,6 +30,7 @@ func Validate(line string) (bool, error) {
 	if valid {
 		return ValidateRecord(record)
 	}
+	//TODO: should we return the actual parse error???
 	return valid, errors.New("JSON-line not well formed.")
 }
 
@@ -28,7 +41,7 @@ func ValidateRecord(record Record) (bool, error) {
 	if record.DataSource == "" {
 		return false, errors.New("A DATA_SOURCE field is required.")
 	}
-	if record.RecordId == "" {
+	if record.Id == "" {
 		return false, errors.New("A RECORD_ID field is required.")
 	}
 	return true, nil
