@@ -17,6 +17,7 @@ func NewRecord(line string) (*Record, error) {
 	var record Record
 	err := json.Unmarshal([]byte(line), &record)
 	if err == nil {
+		record.Json = line
 		return &record, nil
 	}
 	//TODO:  should we return err ???

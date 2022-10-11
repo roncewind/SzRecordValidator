@@ -8,9 +8,15 @@ import (
 // Test the NewRecord function
 func TestNewRecord_good(t *testing.T) {
 	jsonLine := `{"DATA_SOURCE": "ICIJ", "RECORD_ID": "24000001", "ENTITY_TYPE": "ADDRESS", "RECORD_TYPE": "ADDRESS", "icij_source": "BAHAMAS", "icij_type": "ADDRESS", "COUNTRIES": [{"COUNTRY_OF_ASSOCIATION": "BHS"}], "ADDR_FULL": "ANNEX FREDERICK & SHIRLEY STS, P.O. BOX N-4805, NASSAU, BAHAMAS", "REL_ANCHOR_DOMAIN": "ICIJ_ID", "REL_ANCHOR_KEY": "24000001"}`
-	_, err := NewRecord(jsonLine)
+	record, err := NewRecord(jsonLine)
 	if err != nil {
 		t.Errorf("FAILED, received err: %s", err.Error())
+	} else if record.Id != "24000001" {
+		t.Errorf("FAILED, Id incorrect")
+	} else if record.DataSource != "ICIJ" {
+		t.Errorf("FAILED, DataSource incorrect")
+	} else if record.Json != jsonLine {
+		t.Errorf("FAILED, jsonLine incorrect")
 	} else {
 		t.Log("SUCCEDED. record created.")
 	}
