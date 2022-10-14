@@ -13,18 +13,27 @@ type Record struct {
 }
 
 // ----------------------------------------------------------------------------
+// returns a valid Record or an error if validation fails
 func NewRecord(line string) (*Record, error) {
 	var record Record
 	err := json.Unmarshal([]byte(line), &record)
 	if err == nil {
 		record.Json = line
-		return &record, nil
+		_, validationErr := ValidateRecord(record)
+		if validationErr == nil {
+			return &record, nil
+		} else {
+			return &record, validationErr
+		}
 	}
 	//TODO:  should we return err ???
 	return &record, errors.New("JSON-line not well formed.")
 }
 
 // ----------------------------------------------------------------------------
+// a string is only a valid Record, if it is a well formed JSONLine
+// and it has a DataSource field
+// and it has an Id field
 func Validate(line string) (bool, error) {
 	var record Record
 	valid := json.Unmarshal([]byte(line), &record) == nil
@@ -36,9 +45,10 @@ func Validate(line string) (bool, error) {
 }
 
 // ----------------------------------------------------------------------------
+// a Record is only valid if it has a DataSource field
+// and it has an Id field
 func ValidateRecord(record Record) (bool, error) {
-	// FIXME: errors should be specific to the input method
-	//  ala rabbitmq message ID?
+
 	if record.DataSource == "" {
 		return false, errors.New("A DATA_SOURCE field is required.")
 	}
